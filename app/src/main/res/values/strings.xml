@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">WeatherApplication</string>
     <string name="search">Search by city</string>
+    <string name="search_icon">Search icon to search by city name</string>
 </resources>

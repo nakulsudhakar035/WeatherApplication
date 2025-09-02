@@ -14,9 +14,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             WeatherApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    WeatherScreen(innerPadding)
+                    WeatherScreen(innerPadding = innerPadding)
                 }
             }
         }
