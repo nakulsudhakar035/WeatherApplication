@@ -2,4 +2,10 @@
     <string name="app_name">WeatherApplication</string>
     <string name="search">Search by city</string>
     <string name="search_icon">Search icon to search by city name</string>
+    <string name="location_icon">Location icon</string>
+    <string name="weather_condition_icon">Weather condition icon</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="uv">UV</string>
+    <string name="precipitation">Precipitation</string>
 </resources>

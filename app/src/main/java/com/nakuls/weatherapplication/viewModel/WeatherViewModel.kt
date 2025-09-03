@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nakuls.weatherapplication.api.Constants
 import com.nakuls.weatherapplication.api.RetrofitInstance
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,12 +20,42 @@ class WeatherViewModel: ViewModel() {
     private val weatherAPI = RetrofitInstance.weatherAPI
 
     fun getWeatherforCity(city: String){
+        _uiState.update { currentState ->
+            currentState.copy(
+                isLoading = true
+            )
+        }
         viewModelScope.launch {
-            val response = weatherAPI.getWeather(Constants.apikey, city)
-            if(response.isSuccessful){
-                Log.i("Weather", response.body().toString())
-            } else {
-                Log.i("Weather",response.toString())
+            try {
+                val response = weatherAPI.getWeather(Constants.apikey, city)
+                if (response.isSuccessful) {
+                    response.body()?.let { weatherObj ->
+                        _uiState.update { currentState ->
+                            currentState.copy(
+                                weather = weatherObj
+                            )
+                        }
+                    }
+                } else {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            errorMessage = "Unable to fetch information currently"
+                        )
+                    }
+                }
+            }  catch (exception: Exception) {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        errorMessage = "Unable to fetch information currently"
+                    )
+                }
+            } finally {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        city = "",
+                        isLoading = false
+                    )
+                }
             }
         }
 
