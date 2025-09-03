@@ -1,4 +1,4 @@
-package com.nakuls.weatherapplication.viewModel
+package com.nakuls.weatherapplication.data.model
 
 data class Location(
     val country: String,

@@ -1,4 +1,4 @@
-package com.nakuls.weatherapplication.api
+package com.nakuls.weatherapplication.utils
 
 object Constants {
 

@@ -1,4 +1,4 @@
-package com.nakuls.weatherapplication
+package com.nakuls.weatherapplication.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,9 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,7 +34,8 @@ import androidx.compose.ui.unit.sp
 import com.nakuls.weatherapplication.viewModel.WeatherViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.nakuls.weatherapplication.viewModel.Weather
+import com.nakuls.weatherapplication.R
+import com.nakuls.weatherapplication.data.model.Weather
 
 @Composable
 fun WeatherScreen(weatherViewModel: WeatherViewModel = viewModel(),
@@ -172,9 +170,3 @@ fun WeatherKeyVal(key : String, value : String) {
     }
 }
 
-@Preview
-@Composable
-fun ShowScreen(){
-    val paddingValues: PaddingValues = PaddingValues()
-    WeatherScreen(viewModel(),paddingValues)
-}

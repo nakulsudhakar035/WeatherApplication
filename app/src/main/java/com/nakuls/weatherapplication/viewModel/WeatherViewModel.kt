@@ -1,12 +1,9 @@
 package com.nakuls.weatherapplication.viewModel
 
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nakuls.weatherapplication.api.Constants
-import com.nakuls.weatherapplication.api.RetrofitInstance
-import kotlinx.coroutines.delay
+import com.nakuls.weatherapplication.utils.Constants
+import com.nakuls.weatherapplication.data.remote.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

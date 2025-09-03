@@ -1,6 +1,6 @@
 package com.nakuls.weatherapplication.viewModel
 
-import android.health.connect.datatypes.units.Temperature
+import com.nakuls.weatherapplication.data.model.Weather
 
 data class WeatherUIState(
     val city: String = "",
