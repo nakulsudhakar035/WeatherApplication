@@ -25,10 +25,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakuls.weatherapplication.viewModel.WeatherViewModel
@@ -53,7 +53,9 @@ fun WeatherScreen(weatherViewModel: WeatherViewModel = viewModel(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             OutlinedTextField(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("SearchField"),
                 value = weatherUIState.city,
                 onValueChange = {
                     weatherViewModel.onCityChanged(it)
@@ -62,8 +64,9 @@ fun WeatherScreen(weatherViewModel: WeatherViewModel = viewModel(),
                     stringResource(R.string.search)
                 }
             )
-            IconButton(onClick = {
-                weatherViewModel.getWeatherforCity(weatherUIState.city)
+            IconButton(modifier = Modifier.testTag("SearchButton"),
+                onClick = {
+                    weatherViewModel.getWeatherForCity(weatherUIState.city)
             }) {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -72,9 +75,15 @@ fun WeatherScreen(weatherViewModel: WeatherViewModel = viewModel(),
             }
         }
         when{
-            weatherUIState.isLoading -> CircularProgressIndicator()
-            weatherUIState.errorMessage.length > 1 -> Text(text = weatherUIState.errorMessage)
-            weatherUIState.weather != null -> WeatherDetail(weatherUIState.weather!!)
+            weatherUIState.isLoading -> CircularProgressIndicator(
+                modifier = Modifier.testTag("LoadingIndicator")
+            )
+            weatherUIState.errorMessage.length > 1 -> Text(
+                text = weatherUIState.errorMessage
+            )
+            weatherUIState.weather != null -> WeatherDetail(
+                weatherUIState.weather!!
+            )
         }
     }
 }
@@ -98,6 +107,7 @@ fun WeatherDetail(weather: Weather){
                 modifier = Modifier.size(40.dp)
             )
             Text(
+                modifier = Modifier.testTag("City"),
                 text = weather.location.name,
                 fontSize = 30.sp
             )
@@ -115,7 +125,8 @@ fun WeatherDetail(weather: Weather){
             text = "${weather.current.temp_c} °c",
             fontSize = 56.sp,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            modifier = Modifier.testTag("Temperature")
         )
         AsyncImage(
             modifier = Modifier.size(160.dp),

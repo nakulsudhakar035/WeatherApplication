@@ -4,19 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nakuls.weatherapplication.utils.Constants
 import com.nakuls.weatherapplication.data.remote.RetrofitInstance
+import com.nakuls.weatherapplication.data.remote.WeatherAPI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class WeatherViewModel: ViewModel() {
+class WeatherViewModel(
+    private val weatherAPI: WeatherAPI = RetrofitInstance.weatherAPI
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(WeatherUIState())
     val uiState: StateFlow<WeatherUIState> = _uiState.asStateFlow()
-    private val weatherAPI = RetrofitInstance.weatherAPI
 
-    fun getWeatherforCity(city: String){
+    fun getWeatherForCity(city: String){
         _uiState.update { currentState ->
             currentState.copy(
                 isLoading = true
