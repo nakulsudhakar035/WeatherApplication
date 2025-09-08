@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class WeatherViewModel(
     private val weatherAPI: WeatherAPI = RetrofitInstance.weatherAPI
@@ -31,9 +32,24 @@ class WeatherViewModel(
                     response.body()?.let { weatherObj ->
                         _uiState.update { currentState ->
                             currentState.copy(
-                                weather = weatherObj
+                                weather = weatherObj,
+                                errorMessage = ""
                             )
                         }
+                    }
+                } else if (response.errorBody() != null){
+                    val errorMessage = try {
+                        val jsonString = response.errorBody()!!.string()
+                        val jsonObject = JSONObject(jsonString)
+                        val errorObject = jsonObject.getJSONObject("error")
+                        errorObject.getString("message")
+                    } catch (e: Exception) {
+                        "Unable to fetch information currently"
+                    }
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            errorMessage = errorMessage
+                        )
                     }
                 } else {
                     _uiState.update { currentState ->

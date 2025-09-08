@@ -22,7 +22,7 @@
       <SelectionState runConfigName="showsLoadingIndicator_whenLoading()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="searchField_updatesTextCorrectly()">
+      <SelectionState runConfigName="weatherScreen_error_displaysInvalidLocation()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

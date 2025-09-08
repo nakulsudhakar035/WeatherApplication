@@ -80,18 +80,73 @@ class WeatherScreenTest {
             .performTextInput("Berlin")
         composeTestRule.onNodeWithTag("SearchButton")
             .performClick()
-        composeTestRule.waitUntil(
-            condition = {
-                composeTestRule.onAllNodesWithTag("City")
-                    .fetchSemanticsNodes()
-                    .isNotEmpty()
-            },
-            timeoutMillis = 3000
-        )
-        composeTestRule.onNodeWithTag("City")
-            .assertTextContains("Berlin")
-        composeTestRule.onNodeWithTag("Temperature")
-            .assertTextContains("25")
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onAllNodesWithTag("City").fetchSemanticsNodes().isNotEmpty()
+        }
 
+        composeTestRule.onNodeWithTag("City")
+            .assertExists()
+            .assertTextContains("Berlin")
+
+        composeTestRule.onNodeWithTag("Temperature")
+            .assertExists()
+            .assertTextContains("25 °c")
+
+    }
+
+    @Test
+    fun weatherScreen_error_displaysInvalidLocation() {
+
+        val fakeApi = InvalidLocationWeatherAPI()
+        val viewModel = WeatherViewModel(fakeApi)
+
+        composeTestRule.setContent {
+            WeatherApplicationTheme {
+                WeatherScreen(
+                    viewModel,
+                    innerPadding = PaddingValues(0.dp)
+                )
+            }
+        }
+        composeTestRule.onNodeWithTag("SearchField")
+            .performTextInput("abcdefg")
+        composeTestRule.onNodeWithTag("SearchButton")
+            .performClick()
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onAllNodesWithTag("Error").fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithTag("Error")
+            .assertExists()
+            .assertTextContains("No matching location found")
+    }
+
+    @Test
+    fun weatherScreen_error_displaysGenericMessage() {
+
+        val fakeApi = InvalidResponseWeatherAPI()
+        val viewModel = WeatherViewModel(fakeApi)
+
+        composeTestRule.setContent {
+            WeatherApplicationTheme {
+                WeatherScreen(
+                    viewModel,
+                    innerPadding = PaddingValues(0.dp)
+                )
+            }
+        }
+        composeTestRule.onNodeWithTag("SearchField")
+            .performTextInput("berlinee")
+        composeTestRule.onNodeWithTag("SearchButton")
+            .performClick()
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onAllNodesWithTag("Error").fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithTag("Error")
+            .assertExists()
+            .assertTextContains("Unable to fetch information currently")
     }
 }

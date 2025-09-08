@@ -58,7 +58,7 @@ class FakeWeatherApi: WeatherAPI {
             Location(
                 country = "test",
                 lat = "test",
-                localtime = "test",
+                localtime = "2025-09-08 12:34",
                 localtime_epoch = "test",
                 lon = "test",
                 name = "Berlin",
