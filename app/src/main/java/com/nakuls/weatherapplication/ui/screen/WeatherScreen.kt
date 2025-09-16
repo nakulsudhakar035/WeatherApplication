@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nakuls.weatherapplication.viewModel.WeatherViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -46,7 +47,7 @@ import com.nakuls.weatherapplication.data.model.Location
 import com.nakuls.weatherapplication.data.model.Weather
 
 @Composable
-fun WeatherScreen(weatherViewModel: WeatherViewModel = viewModel(),
+fun WeatherScreen(weatherViewModel: WeatherViewModel = hiltViewModel(),
                   innerPadding: PaddingValues) {
 
     val weatherUIState by weatherViewModel.uiState.collectAsState()

@@ -5,15 +5,19 @@ import androidx.lifecycle.viewModelScope
 import com.nakuls.weatherapplication.utils.Constants
 import com.nakuls.weatherapplication.data.remote.RetrofitInstance
 import com.nakuls.weatherapplication.data.remote.WeatherAPI
+import com.nakuls.weatherapplication.domain.WeatherRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import javax.inject.Inject
 
-class WeatherViewModel(
-    private val weatherAPI: WeatherAPI = RetrofitInstance.weatherAPI
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
+    private val weatherRepository: WeatherRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(WeatherUIState())
@@ -27,7 +31,7 @@ class WeatherViewModel(
         }
         viewModelScope.launch {
             try {
-                val response = weatherAPI.getWeather(Constants.apikey, city)
+                val response = weatherRepository.fetchWeatherData(Constants.apikey, city)
                 if (response.isSuccessful) {
                     response.body()?.let { weatherObj ->
                         _uiState.update { currentState ->
